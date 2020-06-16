@@ -1,0 +1,109 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Twitter -->
+    <meta name="twitter:site" content="@themepixels">
+    <meta name="twitter:creator" content="@themepixels">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DashForge">
+    <meta name="twitter:description" content="Responsive Bootstrap 4 Dashboard Template">
+    <meta name="twitter:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+
+    <!-- Facebook -->
+    <meta property="og:url" content="http://themepixels.me/dashforge">
+    <meta property="og:title" content="DashForge">
+    <meta property="og:description" content="Responsive Bootstrap 4 Dashboard Template">
+
+    <meta property="og:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+    <meta property="og:image:secure_url" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="600">
+
+    <!-- Meta -->
+    <meta name="description" content="Responsive Bootstrap 4 Dashboard Template">
+    <meta name="author" content="ThemePixels">
+
+     <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.png' %}">
+
+    <title>Group 8 FileManager Login</title>
+
+    {% include 'components/head_css.html' %}
+
+   
+
+  </head>
+  <body>
+
+    <header class="navbar navbar-header navbar-header-fixed">
+      <a href="#" id="mainMenuOpen" class="burger-menu"><i data-feather="menu"></i></a>
+      <div class="navbar-brand">
+        <a href="{% url 'filemanager:browser' %}" class="df-logo">file<span>manager</span></a>
+      </div><!-- navbar-brand -->
+          </header><!-- navbar -->
+
+    <div class="content content-fixed content-auth">
+      <div class="container">
+        <div class="media align-items-stretch justify-content-center ht-100p pos-relative">
+
+          
+          <div class="sign-wrapper mg-lg-l-50 mg-xl-l-60">
+            <div class="wd-100p">
+              <h3 class="tx-color-01 mg-b-5">Sign In</h3>
+              <p class="tx-color-03 tx-16 mg-b-40">Welcome back! Please login to continue.</p>
+
+              <!-- Rendering Errors -->
+			{% if form.non_field_errors %}
+				<div class="alert alert-danger alert-dismissible fade show" role="alert">
+				{% for error in form.non_field_errors %}
+					<p{% if forloop.last %} class="mb-0"{% endif %}>{{ error }}</p>
+				{% endfor %}
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+				</div>
+			{% endif %}
+
+
+			<form method="post" action="">
+			{% csrf_token %}
+
+              <div class="form-group">
+                {{ form.username|as_crispy_field }}
+              </div>
+              <div class="form-group">
+                <div class="d-flex justify-content-between mg-b-5">
+                  <a href="" class="tx-13">Forgot password?</a>
+                </div>
+                {{ form.password|as_crispy_field }}
+              </div>
+              <button class="btn btn-brand-02 btn-block">Sign In</button>
+			<input type="hidden" name="next" value="{{ next }}" />
+			</form>
+            </div>
+          </div><!-- sign-wrapper -->
+
+
+        </div><!-- media -->
+      </div><!-- container -->
+    </div><!-- content -->
+
+    <footer class="footer">
+      <div>
+        <span>All Rights Reserved. created with love by Group 8 &copy; 2020 </span>
+      </div>
+    </footer>
+
+  {% include 'components/javascript.html' %}
+
+  </body>
+</html>

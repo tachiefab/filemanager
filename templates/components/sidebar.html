@@ -1,0 +1,43 @@
+  {% load i18n static %}
+
+ <div class="filemgr-sidebar-header">
+          <div class="dropdown dropdown-icon flex-fill">
+            <button class="btn btn-xs btn-block btn-white" data-toggle="dropdown">New <i data-feather="chevron-down"></i></button>
+
+            <div class="dropdown-menu tx-13">
+              <a href="" id="create-directory-btn" data-href="{% url 'filemanager:create-directory' %}?path={{path}}{% if popup %}&amp;popup=1{% endif %}" class="dropdown-item"><i data-feather="folder"></i><span>Folder</span></a>
+            </div><!-- dropdown-menu -->
+
+          </div><!-- dropdown -->
+          <div class="dropdown dropdown-icon flex-fill mg-l-10">
+            <button class="btn btn-xs btn-block btn-primary" data-toggle="dropdown">{% trans "Upload" %} <i data-feather="chevron-down"></i></button>
+            <div class="dropdown-menu tx-13">
+
+              <a href="" id ="upload-modal-btn" data-href="{% url 'filemanager:upload' %}?path={{path}}{% if popup %}&amp;popup=1{% endif %}" class="dropdown-item"><i data-feather="file"></i><span>{% trans "File" %}</span></a>
+              
+            </div><!-- dropdown-menu -->
+          </div><!-- dropdown -->
+        </div><!-- filemgr-sidebar-header -->
+        <div class="filemgr-sidebar-body">
+          <div class="pd-t-20 pd-b-10 pd-x-10">
+            <nav class="nav nav-sidebar tx-13">
+              <a href="{% url 'filemanager:browser' %}" class="nav-link active"><i data-feather="folder"></i> <span>All Files</span></a>
+              <a href="{% url 'filemanager:browser' %}" class="nav-link"><i data-feather="clock"></i> <span>Recents</span></a>
+            </nav>
+          </div>
+        
+          <div class="pd-y-10 pd-x-20">
+            <label class="tx-sans tx-uppercase tx-medium tx-10 tx-spacing-1 tx-color-03 mg-b-15">Storage Status</label>
+
+            <div class="media">
+              <i data-feather="database" class="wd-30 ht-30"></i>
+              <div class="media-body mg-l-10">
+                <div class="tx-12 mg-b-4">10.2GB used of 50GB</div>
+                <div class="progress ht-3 mg-b-20">
+                  <div class="progress-bar wd-15p" role="progressbar" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div><!-- media-body -->
+            </div><!-- media -->
+            <p class="tx-12">Get 2TB (2,000GB) of storage now and get 40% off. Offers ends soon. <a href="">Learn more</a></p>
+          </div>
+        </div><!-- filemgr-sidebar-body -->

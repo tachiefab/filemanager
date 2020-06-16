@@ -1,0 +1,42 @@
+ <a href="" id="mainMenuOpen" class="burger-menu d-none"><i data-feather="menu"></i></a>
+      <a href="" id="filemgrMenu" class="burger-menu d-lg-none"><i data-feather="arrow-left"></i></a>
+      <div class="navbar-brand">
+        <a href="./index.html" class="df-logo">file<span>manager</span></a>
+      </div><!-- navbar-brand -->
+      <div id="navbarMenu" class="navbar-menu-wrapper">
+        <div class="navbar-menu-header">
+          <a href="./index.html" class="df-logo">file<span>manager</span></a>
+          <a id="mainMenuClose" href=""><i data-feather="x"></i></a>
+        </div><!-- navbar-menu-header -->
+        <ul class="nav navbar-menu">
+          
+        </ul>
+      </div><!-- navbar-menu-wrapper -->
+      <div class="navbar-right">
+
+        <div class="dropdown dropdown-profile">
+          <a href="" class="dropdown-link" data-toggle="dropdown" data-display="static">
+            <div class="avatar avatar-sm"><img src="{{user.get_profile_image_url }}" class="rounded-circle" alt=""></div>
+          </a><!-- dropdown-link -->
+          <div class="dropdown-menu dropdown-menu-right tx-13">
+            <div class="avatar avatar-lg mg-b-15"><img src="{{user.get_profile_image_url }}" class="rounded-circle" alt=""></div>
+            <h6 class="tx-semibold mg-b-5">{{ user.get_full_name }}</h6>
+            <p class="mg-b-25 tx-12 tx-color-03">{{ user.get_user_level }}</p>
+
+            <a href="{% url 'profiles:profile' %}" class="dropdown-item"><i data-feather="edit-3"></i> Edit Profile</a>
+
+            {% if request.user.is_superuser and request.user.is_superuser %}
+            <a href="{% url 'profiles:signup' %}" class="dropdown-item"><i data-feather="user"></i> Add User</a>
+            <a href="{% url 'profiles:signup' %}" class="dropdown-item"><i data-feather="user"></i> More Actions</a>
+            {% endif %}
+
+            <div class="dropdown-divider"></div>
+
+            <a href="{% url 'profiles:change-password' %}" class="dropdown-item"><i data-feather="edit-3"></i> Change Password</a>
+
+            <a href="{% url 'profiles:delete-account' %}" class="dropdown-item"><i data-feather="edit-3"></i> Delete Account</a>
+            
+            <a href="{% url 'logout' %}" class="dropdown-item"><i data-feather="log-out"></i>Sign Out</a>
+          </div><!-- dropdown-menu -->
+        </div><!-- dropdown -->
+      </div><!-- navbar-right -->

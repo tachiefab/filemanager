@@ -1,0 +1,116 @@
+ {% load i18n static %}
+
+ <h4 class="mg-b-15 mg-lg-b-25">All Files</h4>
+
+            <label class="d-block tx-medium tx-10 tx-uppercase tx-sans tx-spacing-1 tx-color-03 mg-b-15">Recently Accessed Files</label>
+
+            <div class="row row-xs">
+
+                {% for file in files %}
+                      {% if file.filetype == "File" %}
+
+                  <div class="col-6 col-sm-4 col-md-3 col-xl">
+                    <div class="card card-file">
+                      <div class="dropdown-file">
+                        <a href="" class="dropdown-link" data-toggle="dropdown"><i data-feather="more-vertical"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a href="#modalViewDetails" data-toggle="modal" class="dropdown-item details"><i data-feather="info"></i>View Details</a>
+                          <a href="" class="dropdown-item important"><i data-feather="star"></i>Mark as Important</a>
+                          <a href="" class="dropdown-item download"><i data-feather="download"></i>Download</a>
+                          <a href="#" class="dropdown-item rename"><i data-feather="edit"></i>Rename</a>
+                          <a href="#" class="dropdown-item delete"><i data-feather="trash"></i>Delete</a>
+                        </div>
+                      </div><!-- dropdown -->
+                      <div class="card-file-thumb tx-danger">
+                        <i class="far fa-file-pdf"></i>
+                      </div>
+                      <div class="card-body">
+                        <h6><a href="" class="link-02">{{ file.filename }}</a></h6>
+                        <span>{{ file.filesize }}</span>
+                      </div>
+                      <div class="card-footer"><span class="d-none d-sm-inline">Last accessed: </span>{{ file.filedate|timesince }} ago</div>
+                    </div>
+                  </div><!-- col -->
+
+                    <!-- {% cycle '' '' '' '' '' '</div><div class="row row-xs">' %} -->
+
+                      {% endif %}
+                  {% endfor %}
+
+            </div><!-- row -->
+
+            <hr class="mg-y-40 bd-0">
+            <label class="d-block tx-medium tx-10 tx-uppercase tx-sans tx-spacing-1 tx-color-03 mg-b-15">Folders</label>
+            <div class="row row-xs">
+
+
+
+               {% for file in files %}
+                  {% if file.filetype == "Directory" %}
+
+              <div class="col-sm-6 col-lg-4 col-xl-3 mg-t-10 mg-sm-t-0">
+                <div class="media media-folder">
+                  <i data-feather="folder"></i>
+                  <div class="media-body">
+                    <h6><a href="" class="link-02">{{ file.filename }}</a></h6>
+                    <span>8 files, 76.3mb</span>
+                  </div><!-- media-body -->
+                  <div class="dropdown-file">
+                    <a href="" class="dropdown-link" data-toggle="dropdown"><i data-feather="more-vertical"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a href="#modalViewDetails" data-toggle="modal" class="dropdown-item details"><i data-feather="info"></i>View Details</a>
+                      <a href="" class="dropdown-item important"><i data-feather="star"></i>Mark as Important</a>
+                      <a href="#modalShare" data-toggle="modal" class="dropdown-item share"><i data-feather="share"></i>Share</a>
+                      <a href="" class="dropdown-item download"><i data-feather="download"></i>Download</a>
+                      <a href="#modalCopy" data-toggle="modal" class="dropdown-item copy"><i data-feather="copy"></i>Copy to</a>
+                      <a href="#modalMove" data-toggle="modal" class="dropdown-item move"><i data-feather="folder"></i>Move to</a>
+                      <a href="#" class="dropdown-item rename"><i data-feather="edit"></i>Rename</a>
+                      <a href="#" class="dropdown-item delete"><i data-feather="trash"></i>Delete</a>
+                    </div>
+                  </div><!-- dropdown -->
+                </div><!-- media -->
+              </div><!-- col -->
+
+               {% endif %}
+              {% endfor %}
+
+            </div><!-- row -->
+
+            <hr class="mg-y-40 bd-0">
+            <label class="d-block tx-medium tx-10 tx-uppercase tx-sans tx-spacing-1 tx-color-03 mg-b-15">Files</label>
+            <div class="row row-xs">
+
+
+               {% for file in files %}
+                  {% if file.filetype == "File" %}
+              <div class="col-6 col-sm-4 col-md-3 col-xl">
+                <div class="card card-file">
+                  <div class="dropdown-file">
+                    <a href="" class="dropdown-link" data-toggle="dropdown"><i data-feather="more-vertical"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a href="#modalViewDetails" data-toggle="modal" class="dropdown-item details"><i data-feather="info"></i>View Details</a>
+                      <a href="" class="dropdown-item important"><i data-feather="star"></i>Mark as Important</a>
+                      <a href="#modalShare" data-toggle="modal" class="dropdown-item share"><i data-feather="share"></i>Share</a>
+                      <a href="" class="dropdown-item download"><i data-feather="download"></i>Download</a>
+                      <a href="#modalCopy" data-toggle="modal" class="dropdown-item copy"><i data-feather="copy"></i>Copy to</a>
+                      <a href="#modalMove" data-toggle="modal" class="dropdown-item move"><i data-feather="folder"></i>Move to</a>
+                      <a href="#" class="dropdown-item rename"><i data-feather="edit"></i>Rename</a>
+                      <a href="#" class="dropdown-item delete"><i data-feather="trash"></i>Delete</a>
+                    </div>
+                  </div><!-- dropdown -->
+                  <div class="card-file-thumb tx-primary">
+                    <i class="far fa-file-word"></i>
+                  </div>
+                  <div class="card-body">
+                    <h6><a href="" class="link-02">{{ file.filename }}</a></h6>
+                    <p>Word Document</p>
+                    <span>{{ file.filesize }}</span>
+                  </div>
+                </div>
+              </div><!-- col -->
+
+               {% endif %}
+              {% endfor %}
+
+
+            </div><!-- row -->

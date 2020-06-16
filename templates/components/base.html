@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Twitter -->
+    <meta name="twitter:site" content="@themepixels">
+    <meta name="twitter:creator" content="@themepixels">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DashForge">
+    <meta name="twitter:description" content="Responsive Bootstrap 4 Dashboard Template">
+    <meta name="twitter:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+
+    <!-- Facebook -->
+    <meta property="og:url" content="http://themepixels.me/dashforge">
+    <meta property="og:title" content="DashForge">
+    <meta property="og:description" content="Responsive Bootstrap 4 Dashboard Template">
+
+    <meta property="og:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+    <meta property="og:image:secure_url" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="600">
+
+    <!-- Meta -->
+    <meta name="description" content="Responsive Bootstrap 4 Dashboard Template">
+    <meta name="author" content="ThemePixels">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.png' %}">
+
+    <title>Group 8 File Manager</title>
+
+          {% include 'components/head_css.html' %}
+
+  </head>
+  <body class="app-filemgr">
+
+    <header class="navbar navbar-header navbar-header-fixed">
+      {% include 'components/nav_user_profile_settings.html' %}
+    </header><!-- navbar -->
+
+    <div class="filemgr-wrapper">
+      <div class="filemgr-sidebar">
+          {% include 'components/sidebar.html' %}
+      </div><!-- filemgr-sidebar -->
+
+      <div class="filemgr-content">
+        <div class="filemgr-content-header">
+          <i data-feather="search"></i>
+             {% include 'components/search.html' %}
+        </div><!-- filemgr-content-header -->
+        <div class="filemgr-content-body">
+          <div class="pd-20 pd-lg-25 pd-xl-30">
+
+           {% block content %}
+
+           {% endblock content %}
+
+          </div>
+        </div><!-- filemgr-content-body -->
+      </div><!-- filemgr-content -->
+
+    </div><!-- filemgr-wrapper -->
+
+    {% include 'components/dropdown-modal.html' %}
+
+    <!-- filemanager modals -->
+
+    {% include 'filemanager/create_directory_modal.html' %}
+    {% include 'filemanager/file_info_modal.html' %}
+    {% include 'filemanager/upload_modal.html' %}
+    {% include 'filemanager/rename_modal.html' %}
+    {% include 'filemanager/remove_modal.html' %}
+
+     {% include 'components/javascript.html' %}
+  </body>
+</html>
