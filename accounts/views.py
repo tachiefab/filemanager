@@ -45,9 +45,37 @@ class IndexView(View):
 
 class UserProfileView(LoginRequiredMixin, AccountUpdateFormMixin, FormMixin, View):
 
+    def get_form(self, *args, **kwargs):
+        form = self.get_user_form()
+        return form
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        first_name = form.cleaned_data.get("first_name")
+        last_name = form.cleaned_data.get("last_name")
+        email = form.cleaned_data.get("email")
+
+        user_qs = get_object_or_404(User, username__iexact=self.request.user.username)
+        updated_user = User.objects.get_or_create(
+                                            first_name=first_name,
+                                            last_name=last_name,
+                                            email=email
+                                            )
+        return super(UserProfileView, self).form_valid(form)
+
+    # def form_valid(self, form):
+    #     user = form.save()
+    #     return redirect('login')
+
     def get(self, request, *args, **kwargs):
         user = get_object_or_404(UserProfile, user=self.request.user)
-        user_form = self.get_user_form()
+        user_form = self.get_form()
         profile_form = UserProfileUpdateForm()
        
         context = {}
