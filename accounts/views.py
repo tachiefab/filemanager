@@ -1,7 +1,8 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import logout
 from django.contrib import messages
-from filebrowser.mixins import LoginRequiredMixin, AjaxRequiredMixin
+from filebrowser.mixins import LoginRequiredMixin
+from django.http import Http404, HttpResponse, JsonResponse, HttpResponseRedirect
 from .mixins import AccountUpdateFormMixin
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
@@ -14,7 +15,8 @@ from .forms import (
                 SignUpForm, 
                 ChangePasswordForm, 
                 DeleteAccountPasswordForm, 
-                UserProfileUpdateForm
+                UserProfileUpdateForm,
+                UserUpdateForm
                 ) 
 from .models import User
 
@@ -62,7 +64,7 @@ class UserProfileView(LoginRequiredMixin, AccountUpdateFormMixin, FormMixin, Vie
         context["form"] = profile_form
         return render(request, "accounts/user_profile.html", context)
 
-class UserAccountUpdateAjaxView(AjaxRequiredMixin, View):
+class UserAccountUpdateAjaxView(View):
 
     def get(self, request, *args, **kwargs):
         logged_in_user = request.user
@@ -71,12 +73,15 @@ class UserAccountUpdateAjaxView(AjaxRequiredMixin, View):
         user_first_name = request.GET.get("first_name")
         user_last_name = request.GET.get("last_name")
         user_email = request.GET.get('email')
+        profile_image = request.GET.get('profile_image')
         flash_message = ""
         if user_obj:
             user_obj.first_name = user_first_name
             user_obj.last_name = user_last_name
             user_obj.email = user_email
             user_obj.save()
+            user_profile_obj.profile_image = profile_image
+            user_profile_obj.save()
             flash_message = "Profile successfully updated."
         data = {
             "flash_message": flash_message,
@@ -96,26 +101,23 @@ class ChangePasswordView(LoginRequiredMixin, View):
         context["form"] = form
         return render(request, "accounts/change-password.html", context)
 
-class ChangePasswordAjaxView(AjaxRequiredMixin, View):
+class ChangePasswordAjaxView(View):
 
     def get(self, request, *args, **kwargs):
         user = request.user
         password1 = request.GET.get("password1")
         password2 = request.GET.get("password2")
-        flash_message = ""
+        flash_message = "Password changed successfully"
         try:
-            if password1 and password2 and password1 != password2:
+            if password1 != password2:
                 flash_message = "Passwords don't match"
             user.set_password(password2)
-            user.save()
-            flash_message = "Password changed successfully"
-            json_data = {
+            user.save() 
+        except:
+            pass
+        json_data = {
             "flash_message": flash_message,
             }
-        except:
-            json_data = {
-                "flash_message": flash_message,
-                }
         return JsonResponse(json_data, status=200)
 
 

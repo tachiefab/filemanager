@@ -34,7 +34,9 @@
 
             <a href="{% url 'profiles:change-password' %}" class="dropdown-item"><i data-feather="edit-3"></i> Change Password</a>
 
+            {% if request.user.is_superuser and request.user.is_superuser %}
             <a href="{% url 'profiles:delete-account' %}" class="dropdown-item"><i data-feather="edit-3"></i> Delete Account</a>
+            {% endif %}
             
             <a href="{% url 'logout' %}" class="dropdown-item"><i data-feather="log-out"></i>Sign Out</a>
           </div><!-- dropdown-menu -->
