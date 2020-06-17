@@ -7,8 +7,8 @@
 
 <div class="sign-wrapper mg-lg-l-50 mg-xl-l-60">
             <div class="wd-100p">
-              <h3 class="tx-color-01 mg-b-5">Sign In</h3>
-              <p class="tx-color-03 tx-16 mg-b-40">Welcome back! Please login to continue.</p>
+              <h3 class="tx-color-01 mg-b-5">Delete Account</h3>
+              <p class="tx-color-03 tx-16 mg-b-40">Your account will be permanently deleted along with all related content.</p>
 
               <!-- Rendering Errors -->
 			{% if form.non_field_errors %}
@@ -23,7 +23,7 @@
 			{% endif %}
 
 
-			<form method="post" action="">
+			<form role="form" method="GET" action="{% url 'profiles:delete' %}">
 			{% csrf_token %}
 
               <div class="form-group">

@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import logout
-from filebrowser.mixins import LoginRequiredMixin
+from django.contrib import messages
+from filebrowser.mixins import LoginRequiredMixin, AjaxRequiredMixin
 from .mixins import AccountUpdateFormMixin
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
@@ -49,30 +50,6 @@ class UserProfileView(LoginRequiredMixin, AccountUpdateFormMixin, FormMixin, Vie
         form = self.get_user_form()
         return form
 
-    def post(self, request, *args, **kwargs):
-        form = self.get_form()
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
-
-    def form_valid(self, form):
-        first_name = form.cleaned_data.get("first_name")
-        last_name = form.cleaned_data.get("last_name")
-        email = form.cleaned_data.get("email")
-
-        user_qs = get_object_or_404(User, username__iexact=self.request.user.username)
-        updated_user = User.objects.get_or_create(
-                                            first_name=first_name,
-                                            last_name=last_name,
-                                            email=email
-                                            )
-        return super(UserProfileView, self).form_valid(form)
-
-    # def form_valid(self, form):
-    #     user = form.save()
-    #     return redirect('login')
-
     def get(self, request, *args, **kwargs):
         user = get_object_or_404(UserProfile, user=self.request.user)
         user_form = self.get_form()
@@ -84,6 +61,27 @@ class UserProfileView(LoginRequiredMixin, AccountUpdateFormMixin, FormMixin, Vie
         context["user_form"] = user_form
         context["form"] = profile_form
         return render(request, "accounts/user_profile.html", context)
+
+class UserAccountUpdateAjaxView(AjaxRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        logged_in_user = request.user
+        user_obj = get_object_or_404(User, username__iexact=logged_in_user.username)
+        user_profile_obj = get_object_or_404(UserProfile, user=logged_in_user)
+        user_first_name = request.GET.get("first_name")
+        user_last_name = request.GET.get("last_name")
+        user_email = request.GET.get('email')
+        flash_message = ""
+        if user_obj:
+            user_obj.first_name = user_first_name
+            user_obj.last_name = user_last_name
+            user_obj.email = user_email
+            user_obj.save()
+            flash_message = "Profile successfully updated."
+        data = {
+            "flash_message": flash_message,
+        }
+        return JsonResponse(data, status=200)
 
 
 class ChangePasswordView(LoginRequiredMixin, View):
@@ -98,6 +96,28 @@ class ChangePasswordView(LoginRequiredMixin, View):
         context["form"] = form
         return render(request, "accounts/change-password.html", context)
 
+class ChangePasswordAjaxView(AjaxRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        password1 = request.GET.get("password1")
+        password2 = request.GET.get("password2")
+        flash_message = ""
+        try:
+            if password1 and password2 and password1 != password2:
+                flash_message = "Passwords don't match"
+            user.set_password(password2)
+            user.save()
+            flash_message = "Password changed successfully"
+            json_data = {
+            "flash_message": flash_message,
+            }
+        except:
+            json_data = {
+                "flash_message": flash_message,
+                }
+        return JsonResponse(json_data, status=200)
+
 
 class DeleteAccountView(LoginRequiredMixin, View):
 
@@ -110,3 +130,28 @@ class DeleteAccountView(LoginRequiredMixin, View):
         context['user'] = user
         context["form"] = form
         return render(request, "accounts/delete_account.html", context)
+
+
+class UserAccountDeleteAjaxView(View):
+    model = User
+
+    def get_object(self, *args, **kwargs):
+        user = self.request.user
+        return user
+
+    def get(self, request, *args, **kwargs):
+        account = self.get_object()
+        account_password = request.user.password
+        password = request.GET.get("password")
+        hashed_password = account.check_password(password)
+        if hashed_password:
+            account.delete()
+            messages.success(request, 
+                "Your account has been successfully deleted your, feel free to create an account with us anytime."
+                )
+        else:
+            logout(request)
+            messages.error(request, 
+                "Permission denied, We've logged you out. Forgot your password?, try resetting it."
+                )
+        return redirect("/")

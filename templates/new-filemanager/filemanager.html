@@ -2,6 +2,18 @@
 {% load static %}
 
 
+
+
+<script>
+    $(document).ready(function(){
+      {% block script %}
+      	alert("Jquery works very well")
+      {% endblock script %}
+    })
+</script>
+
+
+
 {% block content %}
 
 {% include 'new-filemanager/filemanager-manager-content.html' %}

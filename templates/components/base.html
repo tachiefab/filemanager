@@ -57,6 +57,19 @@
         <div class="filemgr-content-body">
           <div class="pd-20 pd-lg-25 pd-xl-30">
 
+    {% if messages %}
+        <div class='container container-alert-message'>
+           <div class='col-sm-8'>
+        <div class='alert alert-success text-center alert-dismissible'>
+         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        {% for message in messages %}
+          <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p><br/>
+          {% endfor %}
+        </div>
+        </div>
+        </div>
+    {% endif %}
+
            {% block content %}
 
            {% endblock content %}
@@ -78,5 +91,14 @@
     {% include 'filemanager/remove_modal.html' %}
 
      {% include 'components/javascript.html' %}
+
+<script>
+    $(document).ready(function(){
+      {% block script %}
+
+      {% endblock script %}
+    })
+</script>
+
   </body>
 </html>
