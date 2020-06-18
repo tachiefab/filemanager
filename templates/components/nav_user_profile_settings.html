@@ -1,11 +1,11 @@
  <a href="" id="mainMenuOpen" class="burger-menu d-none"><i data-feather="menu"></i></a>
       <a href="" id="filemgrMenu" class="burger-menu d-lg-none"><i data-feather="arrow-left"></i></a>
       <div class="navbar-brand">
-        <a href="./index.html" class="df-logo">file<span>manager</span></a>
+        <a href="{% url 'filemanager:browser' %}" class="df-logo">file<span>manager</span></a>
       </div><!-- navbar-brand -->
       <div id="navbarMenu" class="navbar-menu-wrapper">
         <div class="navbar-menu-header">
-          <a href="./index.html" class="df-logo">file<span>manager</span></a>
+          <a href="{% url 'filemanager:browser' %}" class="df-logo">file<span>manager</span></a>
           <a id="mainMenuClose" href=""><i data-feather="x"></i></a>
         </div><!-- navbar-menu-header -->
         <ul class="nav navbar-menu">

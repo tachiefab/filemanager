@@ -67,7 +67,7 @@ class JSONResponseMixin:
 
 
 class BrowserView(LoginRequiredMixin, FilemanagerMixin, TemplateView):
-    template_name = 'new-filemanager/filemanager.html'
+    template_name = 'filemanager/browser/filemanager_list.html'
 
     def dispatch(self, request, *args, **kwargs):
         self.popup = self.request.GET.get('popup', 0) == '1'
